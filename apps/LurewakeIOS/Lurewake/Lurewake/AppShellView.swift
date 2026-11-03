@@ -12,7 +12,7 @@ struct AppShellView: View {
                     )
                 }
 
-            LuresInventoryView()
+            LuresWorkspaceView()
                 .tabItem {
                     Label("Lures", systemImage: "scope")
                 }
