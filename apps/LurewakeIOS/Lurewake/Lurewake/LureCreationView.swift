@@ -32,8 +32,7 @@ struct LuresWorkspaceView: View {
     @State private var inventoryVersion = UUID()
 
     var body: some View {
-        LuresInventoryView()
-            .id(inventoryVersion)
+        LuresInventoryView(refreshToken: inventoryVersion)
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 Button {
                     showingCreation = true

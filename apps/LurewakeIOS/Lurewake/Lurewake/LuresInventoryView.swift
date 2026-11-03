@@ -27,6 +27,8 @@ private enum InventoryPhase {
 
 struct LuresInventoryView: View {
 
+    var refreshToken: UUID = UUID()
+
     @State private var phase: InventoryPhase = .idle
 
     var body: some View {
@@ -95,6 +97,11 @@ struct LuresInventoryView: View {
         }
         .task {
             if case .idle = phase {
+                await loadInventory()
+            }
+        }
+        .onChange(of: refreshToken) { _, _ in
+            Task {
                 await loadInventory()
             }
         }

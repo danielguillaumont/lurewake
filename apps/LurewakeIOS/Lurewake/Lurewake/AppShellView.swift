@@ -2,8 +2,10 @@
 import SwiftUI
 
 struct AppShellView: View {
+    @State private var selectedTab = 0
+
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             ObservatoryDashboardView()
                 .tabItem {
                     Label(
@@ -11,11 +13,13 @@ struct AppShellView: View {
                         systemImage: "square.grid.2x2.fill"
                     )
                 }
+                .tag(0)
 
             LuresWorkspaceView()
                 .tabItem {
                     Label("Lures", systemImage: "scope")
                 }
+                .tag(1)
 
             PendingFeatureView(
                 title: "Activity",
@@ -29,6 +33,7 @@ struct AppShellView: View {
             .tabItem {
                 Label("Activity", systemImage: "waveform.path")
             }
+            .tag(2)
 
             PendingFeatureView(
                 title: "Proof",
@@ -45,6 +50,7 @@ struct AppShellView: View {
                     systemImage: "checkmark.shield"
                 )
             }
+            .tag(3)
         }
         .tint(LurewakeTheme.gold)
         .preferredColorScheme(.dark)
