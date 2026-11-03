@@ -1,0 +1,45 @@
+name: Lurewake Foundation CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  foundation:
+    name: iOS Build and Vapor Tests
+    runs-on: macos-26
+    timeout-minutes: 30
+
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify Apple toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+
+      - name: Build iOS application
+        run: |
+          xcodebuild \
+            -project apps/LurewakeIOS/Lurewake/Lurewake.xcodeproj \
+            -scheme Lurewake \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Build Vapor API
+        run: swift build --package-path services/api
+
+      - name: Run Vapor tests
+        run: swift test --package-path services/api
