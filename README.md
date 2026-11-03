@@ -1,94 +1,157 @@
-# lurewake
+# Lurewake
 
 **Plant the lure. Follow the wake. Prove the signal.**
 
-Lurewake is a native Swift deception-assurance platform being built to deploy controlled digital tripwires, observe interactions, validate detection pipelines, and preserve reproducible evidence.
+Lurewake is a native Swift deception-assurance project designed to help security teams deploy authorized digital lures, observe real interactions, and eventually verify whether their detection pipelines respond.
 
-## Development status
+The goal is to make deception testing observable, reproducible, and evidence-driven.
 
-**PREP — Foundation**
+## Development status — v0.0 Foundation
 
-Implemented:
+The v0.0 milestone establishes a working native client, independent backend, and persistent lure inventory.
+
+### Implemented
+
 - Native SwiftUI iPhone application
-- Initial nocturnal brand interface
-- Swift Vapor 4 backend
-- Local GET /health endpoint
-- Automated backend health test
-- GitHub SSH development workflow
+- Four-tab navigation: Overview, Lures, Activity, Proof
+- Reusable nocturnal design system
+- Live Observatory connection status
+- Vapor 4 backend with PostgreSQL and Fluent
+- Docker Compose local database
+- Versioned `CreateLures` database migration
+- `GET /health` — API liveness
+- `GET /ready` — PostgreSQL readiness
+- `GET /api/v1/lures` — read-only lure inventory
+- Loading, empty, populated, and offline inventory states
+- Manual refresh and connection recovery
+- Automated backend tests and isolated PostgreSQL integration testing
+- Screenshot-based development evidence
 
-Not yet implemented:
-- Live lure issuance
-- PostgreSQL persistence
-- Authentication and authorization
-- Interaction collection
-- Proof-of-Detection engine
-- QR and NFC deployment
+### Not yet implemented
 
-No detection capabilities are claimed as operational.
+- Authenticated lure creation and issuance
+- Production authentication and authorization
+- Deployment of live digital lures
+- Interaction/event collection
+- Detection pipeline validation
+- Evidence chain and export workflows
+- QR/NFC deployment
+- Production hosting and monitoring
+
+No operational detection capability is claimed at v0.0.
+
+## Screenshots
+
+| Observatory | Empty inventory | Draft inventory |
+|:--:|:--:|:--:|
+| <img src="docs/evidence/v00/observatory-online.png" width="240"> | <img src="docs/evidence/v00/lures-empty-layout-refinement.png" width="240"> | <img src="docs/evidence/v00/lures-inventory-draft-test.png" width="240"> |
+
+The draft inventory screenshot shows a temporary development test fixture, not an issued or deployed lure.
 
 ## Technology
 
-- Swift 6.2.3
-- SwiftUI
-- Xcode 26.2
-- Vapor 4.122.2
-- PostgreSQL (planned)
-- Docker Compose (installed; database not configured yet)
+| Component | Technology |
+|---|---|
+| Native client | SwiftUI, Swift 6.2.3 |
+| iOS tooling | Xcode 26.2, iOS 26.2 simulator |
+| Backend | Vapor 4.122.2 |
+| Persistence | PostgreSQL 17, Fluent |
+| Local infrastructure | Docker Compose |
+| Automated tests | Swift Testing, VaporTesting |
+| Source control | GitHub, SSH, feature branches and pull requests |
 
-## Project structure
+## Repository structure
 
-- apps/LurewakeIOS — Native iPhone application
-- services/api — Swift Vapor backend
-- docs/environment.md — Development environment
-- docs/decisions — Architecture decisions
-- docs/evidence — Milestone verification
+- `apps/LurewakeIOS` — Native iOS application
+- `services/api` — Swift Vapor backend
+- `compose.yaml` — Local PostgreSQL service
+- `docs/decisions` — Architecture decisions
+- `docs/evidence/prep` — Completed PREP evidence
+- `docs/evidence/v00` — Foundation verification and screenshots
+- `.github/workflows` — GitHub Actions
 
-## Run the iPhone application
+## Local development
 
-From the repository root:
+The current development environment is an Apple Silicon MacBook Air.
+
+From the repository root, start PostgreSQL:
+
+    docker compose up -d --wait db
+
+The local database password is stored in the Git-ignored `.env` file. Use `.env.example` to see the required variable name, but do not commit an actual password.
+
+Start Vapor with the local credentials loaded:
+
+    (
+        set -a
+        source .env
+        set +a
+        swift run --package-path services/api LurewakeAPI serve
+    )
+
+The Vapor server runs at:
+
+    http://127.0.0.1:8080
+
+Check the endpoints from a second Terminal:
+
+    curl -i http://127.0.0.1:8080/health
+    curl -i http://127.0.0.1:8080/ready
+    curl -i http://127.0.0.1:8080/api/v1/lures
+
+The inventory endpoint requires an initialized database schema. The `CreateLures` migration and its local verification are documented in `docs/evidence/v00/lure-migration.md`.
+
+Open the iPhone project:
 
     open apps/LurewakeIOS/Lurewake/Lurewake.xcodeproj
 
-In Xcode, choose the Lurewake scheme and the
-iPhone 17 Pro simulator, then press Command + R.
+Select the Lurewake scheme and iPhone 17 Pro simulator, then run with Command + R.
 
-## Run the backend
+The simulator uses the Mac's local loopback API. A physical iPhone requires separate networking and security configuration.
 
-From the repository root:
+## Tests
+
+Build the backend:
 
     swift build --package-path services/api
+
+Run ordinary backend tests:
+
     swift test --package-path services/api
 
-Start the API:
+Expected local baseline: two passing tests and one skipped database integration test.
 
-    cd services/api
-    swift run LurewakeAPI serve
+The PostgreSQL integration test is opt-in and uses the dedicated `lurewake_test` database. After creating that database, run:
 
-In another Terminal window:
+    (
+        set -a
+        source .env
+        export LUREWAKE_RUN_DB_TESTS=1
+        set +a
+        swift test --package-path services/api
+    )
 
-    curl -i http://127.0.0.1:8080/health
-
-Expected HTTP status: 200 OK
-
-The health endpoint confirms server liveness only.
-It does not validate detection or database readiness.
+The previously verified local integration run passed all three tests.
 
 ## Security boundaries
 
-Lurewake is intended for authorized testing
-in controlled environments only.
+Lurewake is intended for authorized testing in controlled environments only.
 
-The project will not harvest credentials, silently
-track unrelated visitors, or claim that a decoy
-interaction proves malicious activity.
+At v0.0:
 
-## Documentation
+- The local inventory interface is read-only.
+- Development database and API access are intended for local use.
+- Database credentials must not enter source control.
+- Draft records are not deployed lures.
+- An empty inventory is not evidence of a healthy detection system.
+- No real alerts, interactions, or detection results are generated.
 
-- docs/environment.md
-- docs/decisions/ADR-001-architecture.md
-- docs/evidence/prep/acceptance.md
+Authentication, HTTPS deployment, authorization, rate limiting, and production operational controls remain future work. Do not expose the development API publicly.
 
-## Project status
+## Evidence and roadmap
 
-Planning and early implementation are in progress.
-The application is not production-ready.
+See `docs/evidence/v00` for migration, connectivity, automated testing, iOS integration, and screenshot evidence.
+
+Next milestone: v0.1 — controlled draft-lure lifecycle and secure backend workflows.
+
+**Status: development prototype, not production-ready.**

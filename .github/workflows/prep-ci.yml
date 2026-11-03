@@ -43,3 +43,49 @@ jobs:
 
       - name: Run Vapor tests
         run: swift test --package-path services/api
+
+  postgres-integration:
+    name: PostgreSQL Integration Tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    env:
+      LUREWAKE_DB_PASSWORD: lurewake-ci-disposable-only
+      LUREWAKE_RUN_DB_TESTS: "1"
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: lurewake
+          POSTGRES_USER: lurewake
+          POSTGRES_PASSWORD: lurewake-ci-disposable-only
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U lurewake -d lurewake"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Swift 6.2
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.2"
+
+      - name: Verify Swift
+        run: swift --version
+
+      - name: Create isolated test database
+        run: |
+          docker exec "${{ job.services.postgres.id }}" \
+            psql -X -U lurewake -d lurewake \
+            -v ON_ERROR_STOP=1 \
+            -c "CREATE DATABASE lurewake_test;"
+
+      - name: Run PostgreSQL integration suite
+        run: swift test --package-path services/api

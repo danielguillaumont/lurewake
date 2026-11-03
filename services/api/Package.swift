@@ -11,6 +11,14 @@ let package = Package(
         .package(
             url: "https://github.com/vapor/vapor.git",
             exact: "4.122.2"
+        ),
+        .package(
+            url: "https://github.com/vapor/fluent.git",
+            exact: "4.13.0"
+        ),
+        .package(
+            url: "https://github.com/vapor/fluent-postgres-driver.git",
+            exact: "2.12.0"
         )
     ],
     targets: [
@@ -20,6 +28,14 @@ let package = Package(
                 .product(
                     name: "Vapor",
                     package: "vapor"
+                ),
+                .product(
+                    name: "Fluent",
+                    package: "fluent"
+                ),
+                .product(
+                    name: "FluentPostgresDriver",
+                    package: "fluent-postgres-driver"
                 )
             ]
         ),
@@ -30,6 +46,14 @@ let package = Package(
                 .product(
                     name: "VaporTesting",
                     package: "vapor"
+                ),
+                .product(
+                    name: "Fluent",
+                    package: "fluent"
+                ),
+                .product(
+                    name: "FluentPostgresDriver",
+                    package: "fluent-postgres-driver"
                 )
             ]
         )
