@@ -64,7 +64,7 @@ struct ObservatoryDashboardView: View {
 
                 Spacer()
 
-                Text("V0.0 / FOUNDATION")
+                Text("V0.1 / LIFECYCLE")
             }
             .font(.system(
                 size: 10,

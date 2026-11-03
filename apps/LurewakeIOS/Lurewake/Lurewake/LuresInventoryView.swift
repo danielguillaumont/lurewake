@@ -27,7 +27,10 @@ private enum InventoryPhase {
 
 struct LuresInventoryView: View {
 
+    var refreshToken: UUID = UUID()
+
     @State private var phase: InventoryPhase = .idle
+    @State private var archiveCandidate: InventoryLure?
 
     var body: some View {
         ZStack {
@@ -73,7 +76,7 @@ struct LuresInventoryView: View {
 
                     inventoryContent
 
-                    Text("READ-ONLY  /  LOCAL DEVELOPMENT")
+                    Text("DRAFT LIFECYCLE  /  LOCAL DEVELOPMENT")
                         .font(LurewakeTheme.eyebrowFont)
                         .tracking(1)
                         .foregroundStyle(
@@ -93,8 +96,24 @@ struct LuresInventoryView: View {
                 await loadInventory()
             }
         }
+        .sheet(item: $archiveCandidate) { lure in
+            ArchiveLureDraftView(
+                lureID: lure.id,
+                lureName: lure.name
+            ) {
+                Task {
+                    await loadInventory()
+                }
+            }
+            .presentationDragIndicator(.visible)
+        }
         .task {
             if case .idle = phase {
+                await loadInventory()
+            }
+        }
+        .onChange(of: refreshToken) { _, _ in
+            Task {
                 await loadInventory()
             }
         }
@@ -106,7 +125,7 @@ struct LuresInventoryView: View {
 
             Spacer()
 
-            Text("V0.0")
+            Text("V0.1")
                 .font(LurewakeTheme.eyebrowFont)
                 .foregroundStyle(LurewakeTheme.mutedText)
         }
@@ -231,6 +250,28 @@ struct LuresInventoryView: View {
                                 Text("STATUS / " + lure.status.uppercased())
                                     .font(LurewakeTheme.eyebrowFont)
                                     .foregroundStyle(LurewakeTheme.gold)
+
+                                if lure.status == "draft" {
+                                    Button {
+                                        archiveCandidate = lure
+                                    } label: {
+                                        Label(
+                                            "Archive draft",
+                                            systemImage: "archivebox"
+                                        )
+                                        .font(.system(
+                                            size: 12,
+                                            weight: .semibold
+                                        ))
+                                        .foregroundStyle(LurewakeTheme.gold)
+                                        .frame(
+                                            maxWidth: .infinity,
+                                            alignment: .leading
+                                        )
+                                        .padding(.top, 4)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
                             }
                         }
                     }
