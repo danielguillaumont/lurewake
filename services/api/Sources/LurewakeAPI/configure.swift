@@ -26,6 +26,8 @@ func configure(_ app: Application) async throws {
             "PostgreSQL driver configured"
         )
 
+        app.migrations.add(CreateLures(), to: .psql)
+
     } else {
 
         app.logger.warning(
