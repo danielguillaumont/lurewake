@@ -46,7 +46,7 @@ struct LuresInventoryView: View {
             .ignoresSafeArea()
 
             ScrollView {
-                VStack(alignment: .leading, spacing: 26) {
+                VStack(alignment: .leading, spacing: 20) {
                     header
 
                     VStack(alignment: .leading, spacing: 12) {
@@ -86,8 +86,8 @@ struct LuresInventoryView: View {
                     alignment: .leading
                 )
                 .padding(.horizontal, LurewakeTheme.screenPadding)
-                .padding(.top, 28)
-                .padding(.bottom, 48)
+                .padding(.top, 22)
+                .padding(.bottom, 96)
             }
             .refreshable {
                 await loadInventory()
@@ -243,31 +243,31 @@ struct LuresInventoryView: View {
 
     private var emptyInventory: some View {
         LurewakePanel {
-            VStack(spacing: 19) {
+            VStack(spacing: 13) {
                 ZStack {
                     Circle()
                         .stroke(
                             LurewakeTheme.gold.opacity(0.12),
                             lineWidth: 1
                         )
-                        .frame(width: 148, height: 148)
+                        .frame(width: 116, height: 116)
 
                     Circle()
                         .stroke(
                             LurewakeTheme.gold.opacity(0.3),
                             lineWidth: 1
                         )
-                        .frame(width: 102, height: 102)
+                        .frame(width: 84, height: 84)
 
                     Circle()
                         .fill(LurewakeTheme.gold.opacity(0.08))
-                        .frame(width: 68, height: 68)
+                        .frame(width: 60, height: 60)
 
                     Image(systemName: "scope")
-                        .font(.system(size: 35, weight: .ultraLight))
+                        .font(.system(size: 29, weight: .ultraLight))
                         .foregroundStyle(LurewakeTheme.gold)
                 }
-                .padding(.top, 8)
+                .padding(.top, 2)
 
                 Text("No lures registered")
                     .font(.title2.weight(.semibold))
@@ -291,7 +291,7 @@ struct LuresInventoryView: View {
                 refreshButton(title: "Check inventory again")
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 8)
+            .padding(.vertical, 2)
         }
     }
 

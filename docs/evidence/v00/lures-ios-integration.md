@@ -50,3 +50,31 @@ public network exposure.
 
 Add database-backed automated integration tests
 and controlled draft-lure functionality.
+
+## Final V0.0 Layout Verification
+
+Date: 2026-11-02
+
+The native inventory empty state was refined to
+improve vertical spacing and safe-area clearance.
+
+### Verified
+
+- iPhone 17 Pro simulator: PASS
+- iOS simulator build: PASS
+- Build exit code: 0
+- Empty inventory displayed correctly: PASS
+- Inventory connection indicator visible: PASS
+- Refresh button unobstructed: PASS
+- Bottom navigation unobstructed: PASS
+
+### Screenshot
+
+![Refined Lures inventory layout](lures-empty-layout-refinement.png)
+
+### Remaining UI Checks
+
+Additional simulator sizes, Dynamic Type scaling,
+and VoiceOver accessibility remain to be audited.
+
+No detection capability is implied by this screen.
