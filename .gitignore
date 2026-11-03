@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# Swift and Xcode
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+.swiftpm/xcode/package.xcworkspace/xcuserdata/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.p12
+*.mobileprovision
+local-data/
+
+# Editor temporary files
+*.swp
+*~
