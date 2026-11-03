@@ -12,18 +12,10 @@ struct AppShellView: View {
                     )
                 }
 
-            PendingFeatureView(
-                title: "Lures",
-                symbol: "scope",
-                description:
-                    "Plant controlled digital tripwires " +
-                    "across authorized environments.",
-                nextStep:
-                    "Lure inventory and issuance workflows"
-            )
-            .tabItem {
-                Label("Lures", systemImage: "scope")
-            }
+            LuresInventoryView()
+                .tabItem {
+                    Label("Lures", systemImage: "scope")
+                }
 
             PendingFeatureView(
                 title: "Activity",
