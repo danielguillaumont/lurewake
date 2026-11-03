@@ -166,7 +166,7 @@ private struct PendingFeatureView: View {
 
             Spacer()
 
-            Text("V0.0")
+            Text("V0.1")
         }
         .font(
             .system(

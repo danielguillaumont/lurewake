@@ -20,7 +20,7 @@ struct HealthTests {
 
                 #expect(health.status == "ok")
                 #expect(health.service == "lurewake-api")
-                #expect(health.version == "0.0.0-prep")
+                #expect(health.version == "0.1.0-dev")
             }
         }
     }

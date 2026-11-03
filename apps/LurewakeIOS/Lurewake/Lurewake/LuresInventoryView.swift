@@ -125,7 +125,7 @@ struct LuresInventoryView: View {
 
             Spacer()
 
-            Text("V0.0")
+            Text("V0.1")
                 .font(LurewakeTheme.eyebrowFont)
                 .foregroundStyle(LurewakeTheme.mutedText)
         }
