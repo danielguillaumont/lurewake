@@ -4,7 +4,7 @@ import SwiftUI
 struct AppShellView: View {
     var body: some View {
         TabView {
-            ContentView()
+            ObservatoryDashboardView()
                 .tabItem {
                     Label(
                         "Overview",
