@@ -44,4 +44,11 @@ func configure(_ app: Application) async throws {
             "LUREWAKE_OPERATOR_TOKEN"
         )
     )
+
+    registerLureArchivalRoutes(
+        app,
+        configuredToken: Environment.get(
+            "LUREWAKE_OPERATOR_TOKEN"
+        )
+    )
 }
