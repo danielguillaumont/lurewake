@@ -37,4 +37,11 @@ func configure(_ app: Application) async throws {
 
     try routes(app)
     registerLureInventoryRoutes(app)
+
+    registerLureCreationRoutes(
+        app,
+        configuredToken: Environment.get(
+            "LUREWAKE_OPERATOR_TOKEN"
+        )
+    )
 }

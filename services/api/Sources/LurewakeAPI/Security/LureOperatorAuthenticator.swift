@@ -1,32 +1,45 @@
+import Crypto
+import Foundation
 import Vapor
 
-// MARK: - Authenticated Operator
-
 struct LureOperator: Authenticatable, Sendable {}
-
-// MARK: - Bearer Authentication
 
 struct LureOperatorAuthenticator: BearerAuthenticator {
 
     let configuredToken: String?
+
+    private static let challenge = Data(
+        "lurewake-operator-auth-v1".utf8
+    )
 
     func authenticate(
         bearer: BearerAuthorization,
         for request: Request
     ) -> EventLoopFuture<Void> {
 
-        // Fail closed if no sufficiently long
-        // server-side token is configured.
-
         guard let configuredToken,
               configuredToken.utf8.count >= 32 else {
             return request.eventLoop.makeSucceededFuture(())
         }
 
-        // This is a local-development authenticator.
-        // Harden token verification before production use.
+        let referenceKey = SymmetricKey(
+            data: Data(configuredToken.utf8)
+        )
 
-        if bearer.token == configuredToken {
+        let candidateKey = SymmetricKey(
+            data: Data(bearer.token.utf8)
+        )
+
+        let expectedCode = HMAC<SHA256>.authenticationCode(
+            for: Self.challenge,
+            using: referenceKey
+        )
+
+        if HMAC<SHA256>.isValidAuthenticationCode(
+            expectedCode,
+            authenticating: Self.challenge,
+            using: candidateKey
+        ) {
             request.auth.login(LureOperator())
         }
 

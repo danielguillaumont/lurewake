@@ -19,6 +19,10 @@ let package = Package(
         .package(
             url: "https://github.com/vapor/fluent-postgres-driver.git",
             exact: "2.12.0"
+        ),
+        .package(
+            url: "https://github.com/apple/swift-crypto.git",
+            exact: "4.5.2"
         )
     ],
     targets: [
@@ -36,6 +40,10 @@ let package = Package(
                 .product(
                     name: "FluentPostgresDriver",
                     package: "fluent-postgres-driver"
+                ),
+                .product(
+                    name: "Crypto",
+                    package: "swift-crypto"
                 )
             ]
         ),
