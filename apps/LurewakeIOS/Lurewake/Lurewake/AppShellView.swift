@@ -1,32 +1,6 @@
 
 import SwiftUI
 
-private enum ShellColors {
-    static let ink = Color(
-        red: 18 / 255,
-        green: 24 / 255,
-        blue: 39 / 255
-    )
-
-    static let indigo = Color(
-        red: 32 / 255,
-        green: 41 / 255,
-        blue: 60 / 255
-    )
-
-    static let gold = Color(
-        red: 228 / 255,
-        green: 184 / 255,
-        blue: 117 / 255
-    )
-
-    static let parchment = Color(
-        red: 244 / 255,
-        green: 240 / 255,
-        blue: 231 / 255
-    )
-}
-
 struct AppShellView: View {
     var body: some View {
         TabView {
@@ -80,7 +54,7 @@ struct AppShellView: View {
                 )
             }
         }
-        .tint(ShellColors.gold)
+        .tint(LurewakeTheme.gold)
         .preferredColorScheme(.dark)
     }
 }
@@ -93,13 +67,13 @@ private struct PendingFeatureView: View {
 
     var body: some View {
         ZStack {
-            ShellColors.ink
+            LurewakeTheme.ink
                 .ignoresSafeArea()
 
             RadialGradient(
                 colors: [
-                    ShellColors.indigo,
-                    ShellColors.ink
+                    LurewakeTheme.indigo,
+                    LurewakeTheme.ink
                 ],
                 center: .top,
                 startRadius: 20,
@@ -118,16 +92,16 @@ private struct PendingFeatureView: View {
                                 weight: .ultraLight
                             )
                         )
-                        .foregroundStyle(ShellColors.gold)
+                        .foregroundStyle(LurewakeTheme.gold)
                         .frame(width: 122, height: 122)
                         .background {
                             Circle()
-                                .fill(ShellColors.indigo)
+                                .fill(LurewakeTheme.indigo)
                         }
                         .overlay {
                             Circle()
                                 .stroke(
-                                    ShellColors.gold.opacity(0.3),
+                                    LurewakeTheme.gold.opacity(0.3),
                                     lineWidth: 1
                                 )
                         }
@@ -143,7 +117,7 @@ private struct PendingFeatureView: View {
                         )
                         .tracking(-2)
                         .foregroundStyle(
-                            ShellColors.parchment
+                            LurewakeTheme.parchment
                         )
                         .padding(.top, 35)
 
@@ -155,7 +129,7 @@ private struct PendingFeatureView: View {
                             )
                         )
                         .foregroundStyle(
-                            ShellColors.parchment.opacity(0.75)
+                            LurewakeTheme.parchment.opacity(0.75)
                         )
                         .fixedSize(
                             horizontal: false,
@@ -165,7 +139,7 @@ private struct PendingFeatureView: View {
 
                     Rectangle()
                         .fill(
-                            ShellColors.gold.opacity(0.3)
+                            LurewakeTheme.gold.opacity(0.3)
                         )
                         .frame(height: 1)
                         .padding(.vertical, 32)
@@ -186,7 +160,7 @@ private struct PendingFeatureView: View {
     private var header: some View {
         HStack {
             Circle()
-                .fill(ShellColors.gold)
+                .fill(LurewakeTheme.gold)
                 .frame(width: 7, height: 7)
 
             Text("LUREWAKE / OBSERVATORY")
@@ -204,7 +178,7 @@ private struct PendingFeatureView: View {
             )
         )
         .foregroundStyle(
-            ShellColors.parchment.opacity(0.65)
+            LurewakeTheme.parchment.opacity(0.65)
         )
     }
 
@@ -212,11 +186,11 @@ private struct PendingFeatureView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 9) {
                 Image(systemName: "circle.dotted")
-                    .foregroundStyle(ShellColors.gold)
+                    .foregroundStyle(LurewakeTheme.gold)
 
                 Text("AWAITING IMPLEMENTATION")
                     .tracking(1)
-                    .foregroundStyle(ShellColors.gold)
+                    .foregroundStyle(LurewakeTheme.gold)
             }
             .font(
                 .system(
@@ -233,12 +207,12 @@ private struct PendingFeatureView: View {
                         weight: .medium
                     )
                 )
-                .foregroundStyle(ShellColors.parchment)
+                .foregroundStyle(LurewakeTheme.parchment)
 
             Text(nextStep)
                 .font(.system(size: 14))
                 .foregroundStyle(
-                    ShellColors.parchment.opacity(0.65)
+                    LurewakeTheme.parchment.opacity(0.65)
                 )
                 .fixedSize(
                     horizontal: false,
@@ -252,12 +226,12 @@ private struct PendingFeatureView: View {
         .padding(20)
         .background {
             RoundedRectangle(cornerRadius: 18)
-                .fill(ShellColors.indigo)
+                .fill(LurewakeTheme.indigo)
         }
         .overlay {
             RoundedRectangle(cornerRadius: 18)
                 .stroke(
-                    ShellColors.gold.opacity(0.18),
+                    LurewakeTheme.gold.opacity(0.18),
                     lineWidth: 1
                 )
         }
